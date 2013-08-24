@@ -25,12 +25,12 @@ var app = angular.module(
                              [],[],[],[],[]],
                  },
                  hard: {
-                 columns:40,
-                 rows:40,
-                 colors:[[],[],[],[],[],[],[],[],[],[],
-                         [],[],[],[],[],[],[],[],[],[],
-                         [],[],[],[],[],[],[],[],[],[],
-                         [],[],[],[],[],[],[],[],[],[]],
+                     columns:40,
+                     rows:40,
+                     colors:[[],[],[],[],[],[],[],[],[],[],
+                             [],[],[],[],[],[],[],[],[],[],
+                             [],[],[],[],[],[],[],[],[],[],
+                             [],[],[],[],[],[],[],[],[],[]],
                  },
              };
              resetGame('easy');
@@ -109,36 +109,23 @@ var app = angular.module(
                          * Change black to something else
                          * and randomly change all around it (other than gray)
                          */
-                        scope.game.colors[scope.row][scope.col] = getColor(true);
+                        // Check up to one row before to one after
+                        for (var i = -1; i < 2; i++) {
+                            var row = scope.row + i;
 
-                        /*
-                         * Top row
-                         */
-                        if (scope.game.colors[scope.row-1]) {
-                            if (scope.game.colors[scope.row-1][scope.col-1])
-                                scope.game.colors[scope.row-1][scope.col-1] = getColor(true);
-                            scope.game.colors[scope.row-1][scope.col] = getColor(true);
-                            if (scope.game.colors[scope.row-1][scope.col+1])
-                                scope.game.colors[scope.row-1][scope.col+1] = getColor(true);
-                        }
+                            // Row edge detection
+                            if (scope.game.colors[row]) {
 
-                        /*
-                         * Middle Row
-                         */
-                        if (scope.game.colors[scope.row][scope.col-1])
-                            scope.game.colors[scope.row][scope.col-1] = getColor(true);
-                        if (scope.game.colors[scope.row][scope.col+1])
-                            scope.game.colors[scope.row][scope.col+1] = getColor(true);
-                       
-                        /*
-                         * Bottom row
-                         */
-                        if (scope.game.colors[scope.row+1]) {
-                            if (scope.game.colors[scope.row+1][scope.col-1])
-                                scope.game.colors[scope.row+1][scope.col-1] = getColor(true);
-                            scope.game.colors[scope.row+1][scope.col] = getColor(true);
-                            if (scope.game.colors[scope.row+1][scope.col+1])
-                                scope.game.colors[scope.row+1][scope.col+1] = getColor(true);
+                                // Check up to one column before to one after
+                                for (var j = -1; j < 2; j++) {
+                                    var col = scope.col + j;
+
+                                    // Column edge detection
+                                    if (scope.game.colors[row][col]) {
+                                        scope.game.colors[row][col]= getColor(true);
+                                    }
+                                }
+                            }
                         }
                     }
 
